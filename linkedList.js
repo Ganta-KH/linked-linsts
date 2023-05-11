@@ -9,36 +9,126 @@ class LinkedList {
         let current = this.head;
         while (current.next !== null) current = current.next;
         current.next = new Node(value);
-        this.head = current;
     }
 
     prepend(value) {
-        this.head = new Node(value, this.head)
+        this.head = new Node(value, this.head);
     }
 
     size() {
         let current = this.head;
-        let s = 0
+        let s = 0;
         while (current !== null) {
-            current = current.next
+            current = current.next;
             s++;
         }
         return s;
     }
+
+    getHead() {
+        return this.head;
+    }
+
+    getTail() {
+        let current = this.head;
+        while (current.next != null) current = current.next;
+        return current;
+    }
+
+    at(index) {
+        let current = this.head;
+        let count = 0;
+        while (count !== index && current !== null) {
+            current = current.next;
+            count++;
+        }
+        if (count === index) return current;
+        return null;
+    }
+
+    pop() {
+        let current = this.head;
+        const size = this.size() - 1;
+        let count = 0;
+        while (count < size - 1) {
+            current = current.next;
+            count++;
+        }
+        current.next = null;
+    }
+
+    contains(value) {
+        let current = this.head;
+        while (current !== null) {
+            if (current.value === value) return true;
+            current = current.next;
+        }
+        return false;
+    }
+
+    find(value) {
+        let current = this.head;
+        let index = 0;
+        while (current !== null) {
+            if (current.value === value) return index;
+            current = current.next;
+            index++;
+        }
+        return null;
+    }
+
+    toString() {
+        let current = this.head;
+        let str = "";
+        while (current !== null) {
+            str += `( ${current.value} ) -> `;
+            current = current.next;
+        }
+        str += "null";
+        return str;
+    }
+
+    toArray() {
+        const arr = [];
+        let current = this.head;
+        while (current !== null) {
+            arr.push(current.value);
+            current = current.next;
+        }
+        return arr;
+    }
+
+    insertAt(value, index) {
+        const size = this.size();
+        if (index === 0) this.prepend(value);
+        else if (index > 0 && index <= size) {
+            let count = 0;
+            let current = this.head;
+            const newNode = new Node(value);
+            while (count !== index - 1) {
+                current = current.next;
+                count++;
+            }
+            const nextNode = current.next;
+            current.next = newNode;
+            newNode.next = nextNode;
+        }
+    }
+
+    removeAt(index) {
+        if (index === 0) this.head = this.head.next;
+        else if (index > 0 && index <= this.size()) {
+            let last = this.head;
+            let current = last.next;
+            let count = 1;
+            while (count !== index && current != null) {
+                last = current;
+                current = current.next;
+                count++;
+            }
+            last.next = current.next
+        }
+    }
 }
-
-const a = new Node(1);
-const b = new Node(2);
-const c = new Node(3);
-const d = new Node(4);
-const e = new Node(5);
-
-a.next = b;
-b.next = c;
-c.next = d;
-d.next = e;
-
-const list = new LinkedList(a);
-list.append(6)
 
 export default LinkedList;
